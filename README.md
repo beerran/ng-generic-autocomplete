@@ -1,7 +1,7 @@
 # Generic Autocomplete Module with ng-bootstrap for Angular
 
 # Using ng-generic-autocomplete
-- Import GenericAutocompleteComponent from the ng-generic-autocomplete package into your module
+- Import GenericAutocompleteModule from the ng-generic-autocomplete package into your module
 - Add element with required properties
 - <generic-autocomplete [itemList]="myDataList" propertyName="queryProperty"></generic-autocomplete>
 

@@ -1,5 +1,5 @@
 {
-    "name": "generic-autocomplete-component",
+    "name": "ng-generic-autocomplete",
     "version": "1.1.1",
     "description": "Generic autocomplete input component in Angular",
     "main": "dist/bundles/generic-autocomplete-component.umd.js",

@@ -8,7 +8,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/merge';
-var GenericAutocompleteComponent = (function () {
+var GenericAutocompleteComponent = /** @class */ (function () {
     function GenericAutocompleteComponent() {
         var _this = this;
         this.itemList = [];

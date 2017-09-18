@@ -4,7 +4,7 @@
 	(factory((global.ng = global.ng || {}, global.ng.genericAutocompleteComponent = global.ng.genericAutocompleteComponent || {}),global.ng.core,global._angular_common,global._ngBootstrap_ngBootstrap,global.Rx,global.Rx.Observable,null,null,null,null,global.Rx.Observable.prototype,null,null,global._angular_forms));
 }(this, (function (exports,_angular_core,_angular_common,_ngBootstrap_ngBootstrap,rxjs_Observable,rxjs_add_observable_of,rxjs_add_operator_catch,rxjs_add_operator_debounceTime,rxjs_add_operator_distinctUntilChanged,rxjs_add_operator_do,rxjs_add_operator_map,rxjs_add_operator_switchMap,rxjs_add_operator_merge,_angular_forms) { 'use strict';
 
-var GenericAutocompleteComponent = (function () {
+var GenericAutocompleteComponent = /** @class */ (function () {
     function GenericAutocompleteComponent() {
         var _this = this;
         this.itemList = [];
@@ -121,7 +121,7 @@ var GenericAutocompleteComponent = (function () {
     return GenericAutocompleteComponent;
 }());
 
-var GenericAutocompleteModule = (function () {
+var GenericAutocompleteModule = /** @class */ (function () {
     function GenericAutocompleteModule() {
     }
     GenericAutocompleteModule.forRoot = function () {

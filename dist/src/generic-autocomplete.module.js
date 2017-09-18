@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GenericAutocompleteComponent } from './generic-autocomplete.component';
 import { FormsModule } from '@angular/forms';
-var GenericAutocompleteModule = (function () {
+var GenericAutocompleteModule = /** @class */ (function () {
     function GenericAutocompleteModule() {
     }
     GenericAutocompleteModule.forRoot = function () {
