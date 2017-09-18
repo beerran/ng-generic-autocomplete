@@ -1,5 +1,9 @@
 # Generic Autocomplete Module with ng-bootstrap for Angular
 
+Example at https://beerran.github.io/
+Npm package at https://www.npmjs.com/package/ng-generic-autocomplete
+..or just do a quick "npm i ng-generic-autocomplete"
+
 # Using ng-generic-autocomplete
 - Import GenericAutocompleteModule from the ng-generic-autocomplete package into your module
 - Add element with required properties

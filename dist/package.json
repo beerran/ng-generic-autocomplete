@@ -1,6 +1,6 @@
 {
   "name": "ng-generic-autocomplete",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Generic autocomplete module for Angular",
   "main": "bundles/generic-autocomplete-component.umd.js",
   "module": "index.js",
