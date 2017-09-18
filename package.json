@@ -1,0 +1,49 @@
+{
+    "name": "generic-autocomplete-component",
+    "version": "1.1.1",
+    "description": "Generic autocomplete input component in Angular",
+    "main": "dist/bundles/generic-autocomplete-component.umd.js",
+    "module": "dist/index.js",
+    "scripts": {
+        "cleanup": "rimraf dist/bundles dist/src dist/index.d.ts dist/index.metadata.json dist/index.js dist/index.js.map dist/LICENSE dist/README.md",
+        "bundling": "rollup -c",
+        "minify": "uglifyjs dist/bundles/generic-autocomplete-component.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/generic-autocomplete-component.umd.min.js",
+        "copy": "copyfiles LICENSE README.md dist",
+        "build": "npm run cleanup && ngc && npm run bundling && npm run minify && npm run copy"
+    },
+    "keywords": [
+        "angular",
+        "angular2",
+        "angular 2",
+        "localstorage",
+        "local storage"
+    ],
+    "author": "Emil Larsson",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/beerran/ng-generic-autocomplete.git"
+    },
+    "homepage": "https://github.com/beerran/ng-generic-autocomplete",
+    "bugs": {
+        "url": "https://github.com/beerran/ng-generic-autocomplete/issues"
+    },
+    "dependencies": {
+        "@angular/common": "^4.3.6",
+        "@angular/core": "^4.0.1",
+        "@angular/forms": "^4.3.6",
+        "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.3",
+        "reflect-metadata": "~0.1.10",
+        "rxjs": "^5.2.0",
+        "zone.js": "~0.8.5"
+    },
+    "devDependencies": {
+        "@angular/compiler": "^4.0.1",
+        "@angular/compiler-cli": "^4.0.1",
+        "copyfiles": "^1.2.0",
+        "rimraf": "^2.6.1",
+        "rollup": "~0.41.6",
+        "typescript": "^2.2.2",
+        "uglify-js": "^2.8.20"
+    }
+}
