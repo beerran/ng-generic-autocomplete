@@ -5,4 +5,3 @@ node_modules
 npm-debug.log
 *.ngsummary.json
 *.ngfactory.ts
-dist

@@ -1,25 +1,16 @@
 # Generic Autocomplete Module with ng-bootstrap for Angular
 
-Example at https://beerran.github.io/
+# Using
+- Import GenericAutocompleteComponent from the ng-generic-autocomplete package into your module
+- Add HTML tags <generic-autocomplete [itemList]="list" propertyName="property" [outputProperties]="myOutputPropertiesArray" title="title" [showTitle]="true" helpText="helpText" [showHelpText]="true" placeholder="placeholder" failedText="failedText"  fetchDataText="fetchDataText" (onItemSelect)="itemSelected($event)" (onFetchData)="fetchData()" [showItems]="true" [showTableText]="true" [tableActive]="false" tableText="tableText" [pageSize]="5" [maxSize]="5" [clearInput]="false"></generic-autocomplete>
 
-Npm package at https://www.npmjs.com/package/ng-generic-autocomplete
-
-..or just do a quick "npm i ng-generic-autocomplete"
-
-# Using ng-generic-autocomplete
-- Import GenericAutocompleteModule from the ng-generic-autocomplete package into your module
-- Add element with required properties
-- <generic-autocomplete [itemList]="myDataList" propertyName="queryProperty"></generic-autocomplete>
-
-# Available input properties
-## Autocomplete settings
-#### General
-- REQUIRED: itemList: any[] - List of objects to filter
+# Available properties
+- REQUIRED*: itemList: any[] - List of objects to filter
+- REQUIRED*: remoteSearch: boolean - Whether to use a remote api for searching or not
+- REQUIRED**: remoteConfig: {api: string, endpoint: string} - Base api url and endpoint name. No trailing slashes
 - REQUIRED: propertyName: string - Property to filter by
 - outputProperties: string[] - List of properties to display output as (default: [])
 - outputDelimiter: string - Delimiter to separate display properties with (default: ' ')
-- clearInput: boolean - Whether to clear input after item selected or not (default: true)
-#### Text settings
 - title: string - Title above text input (default: 'Search')
 - showTitle: boolean - Boolean to display title over input (default: true)
 - helpText: string - Helper text under input (default: 'Begin typing and search suggestions will appear')
@@ -27,18 +18,17 @@ Npm package at https://www.npmjs.com/package/ng-generic-autocomplete
 - placeholder: string - Placeholder text in input (default: 'Search..')
 - failedText: string - Text to display when search failed (default: 'No items matched your search')
 - fetchDataText: string - Text to display when data not yet fetched (default: 'Click to fetch data')
-
-## Table settings
-#### General
+- clearInput: boolean - Whether to clear input after item selected or not (default: true)
 - showItems: boolean - Whether to show a table containing all items in itemList or not (default: false)
+- showTableText: boolean - Display text above item table (default: true)
+- tableActive: boolean - Have table expanded by default or not (default: true)
+- tableText: string - Text shown over item table (default: 'Or choose from all items..')
 - pageSize: number - Number of items to display for each page in table (default: 5)
 - maxSize: number - Max number of pages shown in pagination before wrapping (default: 5)
-#### Text settings
-- showTableText: boolean - Display text above item table (default: true)
-- tableText: string - Text shown over item table (default: 'Or choose from all items..')
 
-# Output events
+(* One of these are required, and can't be used in conjuction with one another) 
+(** Only required if remoteSearch=true)
+
+# Outputs
 - onItemSelect: Returns a single item of the type in your itemList array of objects
 - onFetchData: Emitted when user clicks the component and data is not yet fetched
-
-If the onFetchData output is supplied, neither the autocomplete nor the table will be shown until the user clicks the field to fetch new data. When the data has been fetched, the autocomplete input and table will be available for use.

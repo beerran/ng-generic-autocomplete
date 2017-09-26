@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.3 (2017-09-26)
+- Input for tableActive, whether or not to have table items expanded by default
+
+## 1.2.2 (2017-09-20)
+- Added support for remote searching via input properties remoteSearch(boolean) and remoteConfig({api: string, endpoint: string})
+
 ## 1.1.1 (2017-09-18)
 - Output properties added to display different properties than the one used for searching
 - Optional table with pagination added via the "showItems" input

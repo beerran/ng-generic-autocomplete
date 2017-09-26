@@ -1,9 +1,9 @@
 <label for="typeahead" *ngIf="showTitle">{{ title }}</label>
-<div class="overlay" *ngIf="hasItems() !== true" (click)="fetchData()">
+<div class="overlay" *ngIf="hasItems() !== true && !remoteSearch" (click)="fetchData()">
     <span class="overlay-text"><i class="fa fa-refresh"></i> {{ fetchDataText }}</span>
 </div>
-<input id="typeahead" [disabled]="hasItems() !== true" type="text" class="form-control" name="typeahead" aria-describedby="typeaheadHelp" [class.is-invalid]="searchFailed" [(ngModel)]="model" [ngbTypeahead]="search" [inputFormatter]="inputFormatter" [resultFormatter]="resultFormatter"
-    [placeholder]="hasItems() ? placeholder : ''" (selectItem)="itemSelected($event)" />
+<input id="typeahead" [disabled]="hasItems() !== true && !remoteSearch" type="text" class="form-control" name="typeahead" aria-describedby="typeaheadHelp" [class.is-invalid]="searchFailed" [(ngModel)]="model" [ngbTypeahead]="search" [inputFormatter]="inputFormatter"
+    [resultFormatter]="resultFormatter" [placeholder]="hasItems() ? placeholder : ''" (selectItem)="itemSelected($event)" />
 <small id="typeaheadHelp" class="form-text text-muted" *ngIf="showHelpText">
     {{ helpText }}
 </small>

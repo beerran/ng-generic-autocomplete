@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Injectable } from '@angular/core';
+import { HttpClient} from '@angular/common/http';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
+
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -9,20 +11,34 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/merge';
+import { HttpParams } from '@angular/common/http';
+
+@Injectable()
+export class SearchService {
+  constructor(private http: HttpClient) {}
+
+  search(term: string, config: { api: string, endpoint: string }): Observable<any> {
+    if (term === '') {
+      return Observable.of([]);
+    }
+
+    return this.http.get(`${config.api}/${config.endpoint}/${term}`).distinctUntilChanged();
+  }
+}
 
 @Component({
   selector: 'generic-autocomplete',
   template: `
   <label for="typeahead" *ngIf="showTitle">{{ title }}</label>
-  <div class="overlay" *ngIf="hasItems() !== true" (click)="fetchData()">
+  <div class="overlay" *ngIf="hasItems() !== true && !remoteSearch" (click)="fetchData()">
       <span class="overlay-text"><i class="fa fa-refresh"></i> {{ fetchDataText }}</span>
   </div>
-  <input id="typeahead" [disabled]="hasItems() !== true" type="text" class="form-control" name="typeahead" aria-describedby="typeaheadHelp" [class.is-invalid]="searchFailed" [(ngModel)]="model" [ngbTypeahead]="search" [inputFormatter]="inputFormatter" [resultFormatter]="resultFormatter"
+  <input id="typeahead" [disabled]="hasItems() !== true && !remoteSearch" type="text" class="form-control" name="typeahead" aria-describedby="typeaheadHelp" [class.is-invalid]="searchFailed" [(ngModel)]="model" [ngbTypeahead]="search" [inputFormatter]="inputFormatter" [resultFormatter]="resultFormatter"
       [placeholder]="hasItems() ? placeholder : ''" (selectItem)="itemSelected($event)" />
   <small id="typeaheadHelp" class="form-text text-muted" *ngIf="showHelpText">
       {{ helpText }}
   </small>
-  <div class="invalid-feedback" *ngIf="searchFailed">{{ failedText }}</div>
+  <div class="invalid-feedback" *ngIf="searchFailed && model">{{ failedText }}</div>
   <span *ngIf="searching">Searching...</span>
   
   <div *ngIf="showItems && hasItems()">
@@ -75,10 +91,16 @@ import 'rxjs/add/operator/merge';
     color: #505050;
     font-weight: 700;
   }
-  `]
+  `],
+  providers: [SearchService]
 })
 export class GenericAutocompleteComponent {
   @Input() itemList: any[] = [];
+  @Input() remoteSearch: boolean = false;
+  @Input() remoteConfig: {
+    api: string,
+    endpoint: string
+  };
   @Input() propertyName: string = '';
   @Input() outputProperties: string[] = [];
   @Input() outputDelimiter: string = ' ';
@@ -95,19 +117,19 @@ export class GenericAutocompleteComponent {
   @Output() onFetchData = new EventEmitter<boolean>();
 
   @Input() showItems: boolean = false;
+  @Input() tableActive: boolean = true;
   @Input() showTableText: boolean = true;
   @Input() tableText: string = 'Or choose from all items..';
   @Input() pageSize: number = 5;  
   @Input() maxSize: number = 5;
 
-  tableActive: boolean = true;
   page: number = 1;
   model: any;
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-  constructor() { }
+  constructor(private searchService: SearchService) { }
 
   inputFormatter = (input: any) => this.clearInput ? null : input[this.propertyName];
   resultFormatter = (input: any) => this.formatOutput(input);
@@ -117,15 +139,15 @@ export class GenericAutocompleteComponent {
     query.debounceTime(300).distinctUntilChanged()
     .do(() => this.searching = true)
     .switchMap(term =>
-      this.searchInternalList(term)   
-      .do((items) => {
-        this.searchFailed = false;            
-      })
-      .catch(() => {
-        this.searchFailed = true;
-        return Observable.of([]);
-      })
+      this.remoteSearch ? this.searchService.search(term, this.remoteConfig) : this.searchInternalList(term)
     )
+    .do((items) => {      
+      this.searchFailed = false;
+    })
+    .catch(() => {
+      this.searchFailed = true;
+      return Observable.of([]);
+    })
     .do(() => this.searching = false)
     .merge(this.hideSearchingWhenUnsubscribed);
 
@@ -140,7 +162,7 @@ export class GenericAutocompleteComponent {
       let propertyValue = item[this.propertyName].toString().toUpperCase();
       return propertyValue.substr(0, query.length) === query;
     }));
-  } 
+  }
 
   tableSelect(item: any) {
     this.onItemSelect.emit(item);
@@ -165,7 +187,7 @@ export class GenericAutocompleteComponent {
 
   private resolve(path: any, obj: any) {
     return path === null ? '' : 
-    path.split('.').reduce(function(prev: any, curr: any) {
+    path.split('.').reduce(function(prev: any, curr: any) {      
       return prev ? prev[curr] : null
     }, obj);
   }
